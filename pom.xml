@@ -9,8 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.accenture</groupId>
-	<artifactId>ws</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>order-billing</artifactId>
+	<version>ws</version>
+	<packaging>war</packaging>
 	<name>ws</name>
 	<description>Backend Coffee shop POS system</description>
 	<url/>
