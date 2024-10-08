@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/order-billing-ws")
 public class OrderAndBillingController {
 
     @Autowired
