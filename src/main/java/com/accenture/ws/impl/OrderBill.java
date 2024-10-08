@@ -6,8 +6,9 @@ import com.accenture.ws.entity.Order;
 import java.util.List;
 
 public class OrderBill {
+
     private List<Order> orderList;
-    private CafeClerk clerk;
+    private final CafeClerk clerk;
 
     public OrderBill(CafeClerk clerk) {
         this.clerk = clerk;

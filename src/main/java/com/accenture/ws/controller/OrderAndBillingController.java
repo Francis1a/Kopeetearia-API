@@ -7,9 +7,12 @@ import com.accenture.ws.impl.OrderBill;
 import com.accenture.ws.impl.RegularBill;
 import com.accenture.ws.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -26,21 +29,34 @@ public class OrderAndBillingController {
         this.clerk = clerk;
     }
 
-    @GetMapping
+    @GetMapping("/orders")
     public List<Order> getOrderList() {
         return orderRepo.findAll();
     }
 
-    @PostMapping
+
+    @PostMapping("/add-order")
     public void addOrder(@RequestBody Order order) {
         orderRepo.save(order);
     }
 
+
     @PutMapping("/{id}")
-    public void updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        if (orderRepo.existsById(id)) {
-            order.setId(id);
-            orderRepo.save(order);
+    public ResponseEntity<String> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
+        Optional<Order> existingOrderOpt = orderRepo.findById(id);
+
+        if (existingOrderOpt.isPresent()) {
+            Order existingOrder = existingOrderOpt.get();
+            // Update only the fields that are passed from the frontend
+            existingOrder.setOrderName(updatedOrder.getOrderName());
+            existingOrder.setPrice(updatedOrder.getPrice());
+            existingOrder.setDiscounted(updatedOrder.isDiscounted()); // Preserve the isDiscounted flag
+
+            // Save the updated order
+            orderRepo.save(existingOrder);
+            return ResponseEntity.ok("Order updated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
         }
     }
 

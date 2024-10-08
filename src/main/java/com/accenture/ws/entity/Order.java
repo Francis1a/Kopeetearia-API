@@ -12,7 +12,11 @@ public class Order {
     private Long id;
 
     private String orderName;
+
+    @Column(name = "price", nullable = false)
     private double price;
+
+    @Column(name = "is_discounted", columnDefinition = "TINYINT(1)") // Mapping to tinyint(1) for boolean
     private boolean isDiscounted;
     private static final double discountPercentage = 5.0;
 
